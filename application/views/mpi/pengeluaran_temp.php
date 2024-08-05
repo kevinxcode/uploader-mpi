@@ -1,100 +1,124 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-?><!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>MPI uploader</title>
 
-	<style type="text/css">
+					<!--begin::Content-->
+					<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+						<!--begin::Entry-->
+						<div class="d-flex flex-column-fluid">
+							<!--begin::Container-->
+							<div class="container">
 
-	::selection { background-color: #E13300; color: white; }
-	::-moz-selection { background-color: #E13300; color: white; }
+								<!--begin::notif--
+								<?php if($this->session->flashdata('alert')): ?>
+									<?php echo $this->session->flashdata('alert'); ?>
+								<?php endif; ?>
+								<!--end::notif-->
 
-	body {
-		background-color: #fff;
-		margin: 40px;
-		font: 13px/20px normal Helvetica, Arial, sans-serif;
-		color: #4F5155;
-	}
+								<!--begin::Card-->
+								<div class="card card-custom">
+									<div class="card-header flex-wrap py-2">
+										<form action="<?php echo base_url(); ?>mpi/pengeluaran_view"  method="get" enctype="multipart/form-data">
+										<div class="card-title">
+											<h3 class="card-label">Data Pemasukkan</h3>
 
-	a {
-		color: #003399;
-		background-color: transparent;
-		font-weight: normal;
-		text-decoration: none;
-	}
+											<div class="form-group" style="margin-right: 5px">
+												<label>Start Date</label>
+												<input type="text" name="dt1" value="<?php echo $dt1; ?>" class="form-control"  />
+											</div>
+											<div class="form-group">
+												<label>End Date</label>
+												<input type="text" name="dt2" value="<?php echo $dt2; ?>" class="form-control"  />
+											</div>
+											<div class="form-group">
+												<label>.</label>
+												<input type="submit" name="check"  value="SUBMIT"  class="btn btn-primary btn-sm">
+												<input type="submit" name="check"  value="EXPORT"  class="btn btn-primary btn-sm">
+											</div>
 
-	a:hover {
-		color: #97310e;
-	}
+										</div>
+										</form>
+										<div class="card-toolbar">
+											<!--begin::Button-->
 
-	h1 {
-		color: #444;
-		background-color: transparent;
-		border-bottom: 1px solid #D0D0D0;
-		font-size: 19px;
-		font-weight: normal;
-		margin: 0 0 14px 0;
-		padding: 14px 15px 10px 15px;
-	}
+											<a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-sm">
+												<span class="svg-icon svg-icon-sm"><i class="flaticon2-plus"></i></span>ADD
+											</a>
 
-	code {
-		font-family: Consolas, Monaco, Courier New, Courier, monospace;
-		font-size: 12px;
-		background-color: #f9f9f9;
-		border: 1px solid #D0D0D0;
-		color: #002166;
-		display: block;
-		margin: 14px 0 14px 0;
-		padding: 12px 10px 12px 10px;
-	}
+											<!--end::Button-->
 
-	#body {
-		margin: 0 15px 0 15px;
-		min-height: 96px;
-	}
+										</div>
+									</div>
+									<div class="card-body">
+										<?php if($check=='EXPORT'){ ?>
+										<a href="<?php echo $file_name; ?>" download>Download</a><hr>
+										<?php } ?>
+										<!--begin: Datatable-->
+<table class="table table-separate table-head-custom table-checkable" id="kt_datatable">
+										<thead>
+            <tr>
+							<th>#</th>
+                <th>Tanggal</th>
+								<th>Keterangan</th>
+                <th>Jumlah</th>
 
-	p {
-		margin: 0 0 10px;
-		padding:0;
-	}
+            </tr>
+        </thead>
 
-	p.footer {
-		text-align: right;
-		font-size: 11px;
-		border-top: 1px solid #D0D0D0;
-		line-height: 32px;
-		padding: 0 10px 0 10px;
-		margin: 20px 0 0 0;
-	}
+        <tbody>
+					<?php $i = 1; ?>
+			<?php foreach($list as $dt) { ?>
+            <tr>
+							<td><?php echo $i++; ?></td>
+                <td><?php echo $dt->Tanggal; ?></td>
+                <td><?php echo $dt->Keterangan; ?></td>
+                <td><?php echo $dt->Jumlah; ?></td>
+                <td><?php echo $dt->User; ?></td>
 
-	#container {
-		margin: 10px;
-		border: 1px solid #D0D0D0;
-		box-shadow: 0 0 8px #D0D0D0;
-	}
-	</style>
-</head>
-<body>
 
-<div id="container">
-	<h1>MPI pengeluaran : <?php echo $msg; ?></h1>
 
-	<div id="body">
+            </tr>
+			<?php } ?>
+
+        </tbody>
+										</table>
+										<!--end: Datatable-->
+									</div>
+								</div>
+								<!--end::Card-->
+							</div>
+							<!--end::Container-->
+						</div>
+						<!--end::Entry-->
+					</div>
+					<!--end::Content-->
+
+
+
+	<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">ADD</h4>
+      </div>
+      <div class="modal-body">
+
 <form action="<?php echo base_url(); ?>mpi/upload_pengeluaran"  method="post" enctype="multipart/form-data">
-  <label for="lname">excel File:</label><br>
-  <input type="file" name="namafile" ><br><br>
-  <input type="submit" name="import" id="btn_submit" onclick="uploadData()" value="import"  class="button">
-  <div id="load" style="display: none">Loading.....</div>
-</form>
-	</div>
+				  <label for="lname">excel File:</label><br>
+				  <input type="file" name="namafile" ><br><br>
+				  <input type="submit" name="import" id="btn_submit" onclick="uploadData()" value="import"  class="btn btn-primary btn-sm">
+				  <div id="load" style="display: none">Loading.....</div>
+				</form>
 
-	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>
+      </div>
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
 </div>
-
-</body>
-</html>
+<!--end modal-->
 
 <script>
 	function uploadData(){
@@ -102,19 +126,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$('#load').show();
 	}
 </script>
-
-<style>
-.button {
-  background-color: #04AA6D;
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-}
-</style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

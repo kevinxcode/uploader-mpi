@@ -32,7 +32,7 @@ class Express extends CI_Controller {
 		$data['file_name'] = '/abc_data_cetak.xlsx';
 		$data['list'] = $list;
 		$this->load->view('app/index_header_template', $data);
-		$this->load->view('abc/order_temp', $data);
+		$this->load->view('express/order_temp', $data);
 		$this->load->view('app/index_footer_template', $data);
 	}
 
@@ -71,7 +71,7 @@ class Express extends CI_Controller {
 		$data['file_name'] = '/abc_pemasukkan.xlsx';
 		$data['list'] = $list;
 		$this->load->view('app/index_header_template', $data);
-		$this->load->view('abc/pemasukkan_temp', $data);
+		$this->load->view('express/pemasukkan_temp', $data);
 		$this->load->view('app/index_footer_template', $data);
 	}
 
@@ -98,7 +98,7 @@ class Express extends CI_Controller {
 		$data['list'] = $list;
 		$data['ActualAmount'] = $ActualAmount;
 		$this->load->view('app/index_header_template_view', $data);
-		$this->load->view('abc/order_temp_detail', $data);
+		$this->load->view('express/order_temp_detail', $data);
 		$this->load->view('app/index_footer_template', $data);
 	}
 	// old
@@ -132,7 +132,7 @@ class Express extends CI_Controller {
 		$data['file_name'] = '/abc_pengeluaran.xlsx';
 		$data['list'] = $list;
 		$this->load->view('app/index_header_template', $data);
-		$this->load->view('abc/pengeluaran_temp', $data);
+		$this->load->view('express/pengeluaran_temp', $data);
 		$this->load->view('app/index_footer_template', $data);
 	}
 
@@ -143,19 +143,19 @@ class Express extends CI_Controller {
 	public function data_cetak(){
 		$msg = $this->input->get('msg');
 		$data['msg'] = $msg;
-		$this->load->view('abc/data_cetak_temp', $data);
+		$this->load->view('express/data_cetak_temp', $data);
 	}
 
 	function kas_harian(){
 		$msg = $this->input->get('msg');
 		$data['msg'] = $msg;
-		$this->load->view('abc/kas_harian', $data);
+		$this->load->view('express/kas_harian', $data);
 	}
 
 	function pengeluaran(){
 		$msg = $this->input->get('msg');
 		$data['msg'] = $msg;
-		$this->load->view('abc/pengeluaran_temp', $data);
+		$this->load->view('express/pengeluaran_temp', $data);
 	}
 
 	function uplpoad_data_cetak(){

@@ -15,7 +15,7 @@
 								<!--begin::Card-->
 								<div class="card card-custom">
 									<div class="card-header flex-wrap py-2">
-										<form action="<?php echo base_url(); ?>nagoya/pengeluaran_view"  method="get" enctype="multipart/form-data">
+										<form action="<?php echo base_url(); ?>express/kas"  method="get" enctype="multipart/form-data">
 										<div class="card-title">
 											<h3 class="card-label">Data Pemasukkan</h3>
 
@@ -33,6 +33,8 @@
 												<input type="submit" name="check"  value="EXPORT"  class="btn btn-primary btn-sm">
 											</div>
 
+
+
 										</div>
 										</form>
 										<div class="card-toolbar">
@@ -45,20 +47,23 @@
 											<!--end::Button-->
 
 										</div>
+
 									</div>
 									<div class="card-body">
-										<?php if($check=='EXPORT'){ ?>
-										<a href="<?php echo $file_name; ?>" download>Download</a><hr>
-										<?php } ?>
 										<!--begin: Datatable-->
+										<?php if($check=='EXPORT'){ ?>
+									<a href="<?php echo $file_name; ?>" download>Download</a><hr>
+									<?php } ?>
 <table class="table table-separate table-head-custom table-checkable" id="kt_datatable">
 										<thead>
             <tr>
 							<th>#</th>
-                <th>Tanggal</th>
-								<th>Keterangan</th>
-                <th>Jumlah</th>
-
+                <th>Invoice No</th>
+								<th>Invoice Date</th>
+                <th>Customer</th>
+                <th>Payment Status</th>
+								<th>Amount</th>
+                <th>Action</th>
             </tr>
         </thead>
 
@@ -67,12 +72,12 @@
 			<?php foreach($list as $dt) { ?>
             <tr>
 							<td><?php echo $i++; ?></td>
-                <td><?php echo $dt->Tanggal; ?></td>
-                <td><?php echo $dt->Keterangan; ?></td>
-                <td><?php echo $dt->Jumlah; ?></td>
-                <td><?php echo $dt->User; ?></td>
-
-
+                <td><?php echo $dt->NoInvoice; ?></td>
+                <td><?php echo $dt->invoice_date; ?></td>
+                <td><?php echo $dt->Customer; ?></td>
+                <td><?php echo $dt->StatusBayar; ?></td>
+								<td><?php echo $dt->inv_total; ?></td>
+                <td><span onclick="openFullScreenPopupWithFocus('<?php echo prefix_url;?>express/invDetail?invoice_no=<?php echo $dt->NoInvoice; ?>')" class="btn btn-primary btn-sm">View</span></td>
 
             </tr>
 			<?php } ?>
@@ -90,6 +95,15 @@
 					</div>
 					<!--end::Content-->
 
+					<script>
+					function openFullScreenPopupWithFocus(url) {
+					    var options = "fullscreen=yes,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no";
+						var left = (screen.width / 2) - (screen.availWidth / 2);
+					    var top = (screen.height / 2) - (screen.availHeight / 2);
+						var popup = window.open(url, "_blank", "width=" + screen.availWidth / 1.3 + ", height=" + screen.availHeight + ", " + options + ", left=" + left + ", top=" + top);
+					    popup.focus();
+					}
+					</script>
 
 
 	<!-- Modal -->
@@ -102,7 +116,7 @@
       </div>
       <div class="modal-body">
 
-<form action="<?php echo base_url(); ?>nagoya/upload_pengeluaran"  method="post" enctype="multipart/form-data">
+<form action="<?php echo base_url(); ?>express/upload_kas"  method="post" enctype="multipart/form-data">
 				  <label for="lname">excel File:</label><br>
 				  <input type="file" name="namafile" ><br><br>
 				  <input type="submit" name="import" id="btn_submit" onclick="uploadData()" value="import"  class="btn btn-primary btn-sm">
