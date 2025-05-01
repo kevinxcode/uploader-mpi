@@ -1,11 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Nagoya extends CI_Controller {
+class Pos extends CI_Controller {
 
 	function order(){
-		$data['current_page'] = "nagoya";
-		$data['sub_page'] = "nagoya_data_cetak";
+		$data['current_page'] = "pos";
+		$data['sub_page'] = "pos_data_cetak";
 		$check = $this->input->get('check');
 		if(isset($check)){
 			$dt1 = $this->input->get('dt1');
@@ -19,26 +19,26 @@ class Nagoya extends CI_Controller {
 		$data['dt1'] = $dt1;
 		$data['dt2'] = $dt2;
 
-		$this->nagoyadb = $this->load->database('nagoyadb', TRUE);
+		$this->pos_mpi = $this->load->database('pos_mpi', TRUE);
 		$sql = "SELECT * FROM datacetak where tanggal between '$dt1' AND  '$dt2' order by id desc";
-		$query = $this->nagoyadb->query($sql);
+		$query = $this->pos_mpi->query($sql);
 		$list =  $query->result();
-		$this->nagoyadb->close();
+		$this->pos_mpi->close();
 
 		if($check=='EXPORT'){
-			$this->Mexport->spreadsheet($list,'abc_data_cetak');
-			// redirect('/abc_data_cetak.xlsx');
+			$this->Mexport->spreadsheet($list,'pos_data_cetak');
+			// redirect('/pos_data_cetak.xlsx');
 		}
-		$data['file_name'] = '/abc_data_cetak.xlsx';
+		$data['file_name'] = '/pos_data_cetak.xlsx';
 		$data['list'] = $list;
 		$this->load->view('app/index_header_template', $data);
-		$this->load->view('nagoya/order_temp', $data);
+		$this->load->view('pos/order_temp', $data);
 		$this->load->view('app/index_footer_template', $data);
 	}
 
 	function kas(){
-		$data['current_page'] = "nagoya";
-		$data['sub_page'] = "nagoya_kas";
+		$data['current_page'] = "pos";
+		$data['sub_page'] = "pos_kas";
 		$check = $this->input->get('check');
 		if(isset($check)){
 			$dt1 = $this->input->get('dt1');
@@ -52,7 +52,7 @@ class Nagoya extends CI_Controller {
 		$data['dt1'] = $dt1;
 		$data['dt2'] = $dt2;
 
-		$this->nagoyadb = $this->load->database('nagoyadb', TRUE);
+		$this->pos_mpi = $this->load->database('pos_mpi', TRUE);
 		$sql = "WITH
 		t1 AS (SELECT * FROM pemasukkan WHERE tanggal BETWEEN '$dt1' AND '$dt2' 
 		ORDER BY NoInvoice DESC),
@@ -60,37 +60,37 @@ class Nagoya extends CI_Controller {
 		WHERE NoInvoice IN (SELECT DISTINCT(t1.NoInvoice) FROM t1) GROUP BY NoInvoice )
 		SELECT * FROM t1
 		INNER JOIN t2 ON t2.NoInvoice=t1.NoInvoice";
-		$query = $this->nagoyadb->query($sql);
+		$query = $this->pos_mpi->query($sql);
 		$list =  $query->result();
-		$this->nagoyadb->close();
+		$this->pos_mpi->close();
 
 		if($check=='EXPORT'){
-			$this->Mexport->spreadsheet($list,'abc_pemasukkan');
-			// redirect('/abc_pemasukkan.xlsx');
+			$this->Mexport->spreadsheet($list,'pos_pemasukkan');
+			// redirect('/pos_pemasukkan.xlsx');
 		}
-		$data['file_name'] = '/abc_pemasukkan.xlsx';
+		$data['file_name'] = '/pos_pemasukkan.xlsx';
 		$data['list'] = $list;
 		$this->load->view('app/index_header_template', $data);
-		$this->load->view('nagoya/pemasukkan_temp', $data);
+		$this->load->view('pos/pemasukkan_temp', $data);
 		$this->load->view('app/index_footer_template', $data);
 	}
 
 	function invDetail(){
-		$data['current_page'] = "nagoya";
-		$data['sub_page'] = "nagoya_data_cetak";
+		$data['current_page'] = "pos";
+		$data['sub_page'] = "pos_data_cetak";
 		$invoice_no = $this->input->get('invoice_no');
 		
 
-		$this->nagoyadb = $this->load->database('nagoyadb', TRUE);
+		$this->pos_mpi = $this->load->database('pos_mpi', TRUE);
 		$sql = "SELECT * FROM datacetak where NoInvoice = '$invoice_no' order by id asc";
-		$query = $this->nagoyadb->query($sql);
+		$query = $this->pos_mpi->query($sql);
 		$list =  $query->result();
 
 		$sql2 = "SELECT SUM(ActualAmount) AS ActualAmount FROM datacetak where NoInvoice = '$invoice_no' order by id asc";
-		$query2 = $this->nagoyadb->query($sql2);
+		$query2 = $this->pos_mpi->query($sql2);
 		$list2 =  $query2->result();
 
-		$this->nagoyadb->close();
+		$this->pos_mpi->close();
 		$ActualAmount = 0;
 		foreach($list2 as $dt){
 			$ActualAmount = $dt->ActualAmount;
@@ -98,14 +98,14 @@ class Nagoya extends CI_Controller {
 		$data['list'] = $list;
 		$data['ActualAmount'] = $ActualAmount;
 		$this->load->view('app/index_header_template_view', $data);
-		$this->load->view('nagoya/order_temp_detail', $data);
+		$this->load->view('pos/order_temp_detail', $data);
 		$this->load->view('app/index_footer_template', $data);
 	}
 	// old
 
 	function pengeluaran_view(){
-		$data['current_page'] = "nagoya";
-		$data['sub_page'] = "nagoya_pengeluaran";
+		$data['current_page'] = "pos";
+		$data['sub_page'] = "pos_pengeluaran";
 		$check = $this->input->get('check');
 		if(isset($check)){
 			$dt1 = $this->input->get('dt1');
@@ -119,20 +119,20 @@ class Nagoya extends CI_Controller {
 		$data['dt1'] = $dt1;
 		$data['dt2'] = $dt2;
 
-		$this->nagoyadb = $this->load->database('nagoyadb', TRUE);
+		$this->pos_mpi = $this->load->database('pos_mpi', TRUE);
 		$sql = "SELECT * FROM pengeluaran WHERE tanggal BETWEEN '$dt1' AND '$dt2' ORDER BY id desc";
-		$query = $this->nagoyadb->query($sql);
+		$query = $this->pos_mpi->query($sql);
 		$list =  $query->result();
-		$this->nagoyadb->close();
+		$this->pos_mpi->close();
 
 		if($check=='EXPORT'){
-			$this->Mexport->spreadsheet($list,'abc_pengeluaran');
-			// redirect('/abc_pengeluaran.xlsx');
+			$this->Mexport->spreadsheet($list,'pos_pengeluaran');
+			// redirect('/pos_pengeluaran.xlsx');
 		}
-		$data['file_name'] = '/abc_pengeluaran.xlsx';
+		$data['file_name'] = '/pos_pengeluaran.xlsx';
 		$data['list'] = $list;
 		$this->load->view('app/index_header_template', $data);
-		$this->load->view('nagoya/pengeluaran_temp', $data);
+		$this->load->view('pos/pengeluaran_temp', $data);
 		$this->load->view('app/index_footer_template', $data);
 	}
 
@@ -143,19 +143,19 @@ class Nagoya extends CI_Controller {
 	public function data_cetak(){
 		$msg = $this->input->get('msg');
 		$data['msg'] = $msg;
-		$this->load->view('nagoya/data_cetak_temp', $data);
+		$this->load->view('pos/data_cetak_temp', $data);
 	}
 
 	function kas_harian(){
 		$msg = $this->input->get('msg');
 		$data['msg'] = $msg;
-		$this->load->view('nagoya/kas_harian', $data);
+		$this->load->view('pos/kas_harian', $data);
 	}
 
 	function pengeluaran(){
 		$msg = $this->input->get('msg');
 		$data['msg'] = $msg;
-		$this->load->view('nagoya/pengeluaran_temp', $data);
+		$this->load->view('pos/pengeluaran_temp', $data);
 	}
 
 	function uplpoad_data_cetak(){
@@ -246,14 +246,14 @@ class Nagoya extends CI_Controller {
 				'User' => $User,
 				'Mesin' => $Mesin,
 			);
-			$this->nagoyadb = $this->load->database('nagoyadb', TRUE);
+			$this->pos_mpi = $this->load->database('pos_mpi', TRUE);
 			// $check = $this->check_data_cetak($id);
 			
 			if($action_data=='insert'){
-				$this->nagoyadb->insert('datacetak', $data);
+				$this->pos_mpi->insert('datacetak', $data);
 			}else{
-				$this->nagoyadb->where('id', $id);
-				$this->nagoyadb->update('datacetak', $data);
+				$this->pos_mpi->where('id', $id);
+				$this->pos_mpi->update('datacetak', $data);
 				
 			}
 			$numrow++; 
@@ -264,9 +264,9 @@ class Nagoya extends CI_Controller {
 	}
 
 	function check_data_cetak($id){
-		$this->nagoyadb = $this->load->database('nagoyadb', TRUE);
+		$this->pos_mpi = $this->load->database('pos_mpi', TRUE);
 		$sql = "select id from datacetak where id='$id'";
-		$query = $this->nagoyadb->query($sql);
+		$query = $this->pos_mpi->query($sql);
 		if($query->num_rows() > 0){
 			return 1;
 		}else{
@@ -305,13 +305,13 @@ class Nagoya extends CI_Controller {
 				'Keterangan' => $c,
 				'Jumlah' => $d,
 			);
-			$this->nagoyadb = $this->load->database('nagoyadb', TRUE);
+			$this->pos_mpi = $this->load->database('pos_mpi', TRUE);
 			$check = $this->check_pengeluaran($a);
 			if($check==2){
-				$this->nagoyadb->insert('pengeluaran', $data);
+				$this->pos_mpi->insert('pengeluaran', $data);
 			}else{
-				$this->nagoyadb->where('id', $a);
-				$this->nagoyadb->update('pengeluaran', $data);
+				$this->pos_mpi->where('id', $a);
+				$this->pos_mpi->update('pengeluaran', $data);
 				
 			}
 			$numrow++; 
@@ -322,9 +322,9 @@ class Nagoya extends CI_Controller {
 	}
 
 	function check_pengeluaran($id){
-		$this->nagoyadb = $this->load->database('nagoyadb', TRUE);
+		$this->pos_mpi = $this->load->database('pos_mpi', TRUE);
 		$sql = "select id from pengeluaran where id='$id'";
-		$query = $this->nagoyadb->query($sql);
+		$query = $this->pos_mpi->query($sql);
 		if($query->num_rows() > 0){
 			return 1;
 		}else{
@@ -375,13 +375,13 @@ class Nagoya extends CI_Controller {
 				'Tgl_Lunas' => $i,
 				'Keterangan' => $j,
 			);
-			$this->nagoyadb = $this->load->database('nagoyadb', TRUE);
+			$this->pos_mpi = $this->load->database('pos_mpi', TRUE);
 			$check = $this->check_pemasukan($b);
 			if($check==2){
-				$this->nagoyadb->insert('pemasukkan', $data);
+				$this->pos_mpi->insert('pemasukkan', $data);
 			}else{
-				$this->nagoyadb->where('NoInvoice', $b);
-				$this->nagoyadb->update('pemasukkan', $data);
+				$this->pos_mpi->where('NoInvoice', $b);
+				$this->pos_mpi->update('pemasukkan', $data);
 			}
 			$numrow++; 
 			}
@@ -391,9 +391,9 @@ class Nagoya extends CI_Controller {
 	}
 
 	function check_pemasukan($id){
-		$this->nagoyadb = $this->load->database('nagoyadb', TRUE);
+		$this->pos_mpi = $this->load->database('pos_mpi', TRUE);
 		$sql = "select NoInvoice from pemasukkan where NoInvoice='$id'";
-		$query = $this->nagoyadb->query($sql);
+		$query = $this->pos_mpi->query($sql);
 		if($query->num_rows() > 0){
 			return 1;
 		}else{

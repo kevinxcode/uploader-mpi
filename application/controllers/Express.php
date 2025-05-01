@@ -4,8 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Express extends CI_Controller {
 
 	function order(){
-		$data['current_page'] = "abc";
-		$data['sub_page'] = "abc_data_cetak";
+		$data['current_page'] = "express";
+		$data['sub_page'] = "express_data_cetak";
 		$check = $this->input->get('check');
 		if(isset($check)){
 			$dt1 = $this->input->get('dt1');
@@ -37,8 +37,8 @@ class Express extends CI_Controller {
 	}
 
 	function kas(){
-		$data['current_page'] = "abc";
-		$data['sub_page'] = "abc_kas";
+		$data['current_page'] = "express";
+		$data['sub_page'] = "express_kas";
 		$check = $this->input->get('check');
 		if(isset($check)){
 			$dt1 = $this->input->get('dt1');
@@ -76,8 +76,8 @@ class Express extends CI_Controller {
 	}
 
 	function invDetail(){
-		$data['current_page'] = "abc";
-		$data['sub_page'] = "abc_data_cetak";
+		$data['current_page'] = "express";
+		$data['sub_page'] = "express_data_cetak";
 		$invoice_no = $this->input->get('invoice_no');
 		
 
@@ -104,8 +104,8 @@ class Express extends CI_Controller {
 	// old
 
 	function pengeluaran_view(){
-		$data['current_page'] = "abc";
-		$data['sub_page'] = "abc_pengeluaran";
+		$data['current_page'] = "express";
+		$data['sub_page'] = "express_pengeluaran";
 		$check = $this->input->get('check');
 		if(isset($check)){
 			$dt1 = $this->input->get('dt1');

@@ -163,6 +163,29 @@ $db['nagoyadb'] = array(
 	'save_queries' => TRUE
 );
 
+$db['pos_mpi'] = array(
+	'dsn'	=> '',
+	'hostname' => '193.203.186.160',
+	'username' => 'u753751205_posmpi',
+	'password' => 'Mpipos@u753751205_',
+	'database' => 'u753751205_mpipos',
+	'dbdriver' => 'mysqli',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);
+
+
 $db['abcdb_real'] = array(
 	'dsn'	=> '',
 	'hostname' => '45.13.133.218',
